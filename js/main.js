@@ -22,6 +22,39 @@ function signUp() {
         });
         return;
     }
+
+    function validateInputs(user) {
+        if (!user.name || !user.email || !user.pass) {
+            
+            Swal.fire({
+                title: "Error!",
+                text: "Please fill in all fields!",
+                icon: "error"
+            });
+            return false;
+        }
+    
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(user.email)) {
+            Swal.fire({
+                title: "Error!",
+                text: "Please enter a valid email address!",
+                icon: "error"
+            });
+            return false;
+        }
+    
+        if (user.pass.length <= 8 || !/[A-Z]/.test(user.pass) || !/[0-9]/.test(user.pass)) {
+            Swal.fire({
+                title: "Error!",
+                text: "Password must be at least 8 characters long, include one uppercase letter, and one number!",
+                icon: "error"
+            });
+            return false;
+        }
+    
+        return true;
+    }
     userData.push(user);
     clearData();
     localStorage.setItem('allUsers', JSON.stringify(userData));
@@ -35,38 +68,7 @@ function signUp() {
     
 }
 
-function validateInputs(user) {
-    if (!user.name || !user.email || !user.pass) {
-        
-        Swal.fire({
-            title: "Error!",
-            text: "Please fill in all fields!",
-            icon: "error"
-        });
-        return false;
-    }
 
-    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(user.email)) {
-        Swal.fire({
-            title: "Error!",
-            text: "Please enter a valid email address!",
-            icon: "error"
-        });
-        return false;
-    }
-
-    if (user.pass.length <= 8 || !/[A-Z]/.test(user.pass) || !/[0-9]/.test(user.pass)) {
-        Swal.fire({
-            title: "Error!",
-            text: "Password must be at least 8 characters long, include one uppercase letter, and one number!",
-            icon: "error"
-        });
-        return false;
-    }
-
-    return true;
-}
 
 function clearData() {
     userNameInput.value = "";
